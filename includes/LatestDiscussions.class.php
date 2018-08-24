@@ -71,7 +71,7 @@ class LatestDiscussions {
 						$hasRepliesClass = $numReplies > 0 ? 'has-replies' : '';
 						$hasAnswerClass = $comment->isSolved() ? 'has-answer' : '';
 
-						$html .= '<div class="row cs-disscussion">';
+						$html .= '<div class="row cs-disscussion cs-disscussion-transclude">';
 						$html .=     '<div class="col-sm-2 col-xs-3"><div class="cs-nb-replies ' . $hasRepliesClass . $hasAnswerClass . '"><span class="cs-nb-replies-nb">' . $numReplies . '</span> '.wfMessage('commentstreams-alldiscussions-replies').'</div></div>';
 						$html .=     '<div class="col-sm-7 col-xs-9">';
 						$html .=        '<div class="cs-comment-title"><a href="'.$associatedpage->getTitle()->getPrefixedText().'#cs-comment-'.$comment->getId().'">'.$comment->getCommentTitle().'</a></div>';
@@ -83,7 +83,7 @@ class LatestDiscussions {
 						$html .=         '<div class="cs-comment-author-creationdate-parent-div"><div class="cs-comment-author">'.$author.'</div>';
 						$html .=         '<div class="cs-comment-creation-date">'.$comment->getCreationDate().'</div></div>';
 						$html .=     '</div>';
-						$html .= '</div>';
+						$html .= '</div><hr>';
 						$index ++;
 					}
 				}
