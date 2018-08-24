@@ -1,0 +1,5 @@
+{
+    "name": "wikifab/latest-discussions",
+    "description": "display a block with the latest discussions on any page",
+    "type": "mediawiki-extension"
+}

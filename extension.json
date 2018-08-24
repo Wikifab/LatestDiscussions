@@ -1,0 +1,33 @@
+{
+	"name": "Latest Discussions",
+	"author": "Julien",
+	"descriptionmsg": "latestdiscussions-desc",
+	"version": "1.0",
+	"license-name": "GPL-2.0+",
+	"type": "other",
+	"AutoloadClasses": {
+		"LatestDiscussions": "includes/LatestDiscussions.class.php"
+	},
+	"SpecialPages": {
+	},
+	"MessagesDirs": {
+		"LatestDiscussions": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"LatestDiscussionsMagic": "LatestDiscussions.i18n.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"LatestDiscussions::onParserSetup"
+		]
+	},
+	"ResourceModules": {
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "LatestDiscussions"
+	},
+	"manifest_version": 1
+}
