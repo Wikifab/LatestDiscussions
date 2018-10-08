@@ -228,15 +228,15 @@ class LatestDiscussionsQueries
 			[
 				'page' => [
 					'INNER JOIN',
-					['cs_comment_data.cst_assoc_page_id = page.page_id']
+					['cst_assoc_page_id = page_id']
 				],
 				'revision' => [
 					'INNER JOIN',
-					['page.page_latest = revision.rev_id']
+					['page_latest = rev_id']
 				],
 				'categorylinks' => [
 					'INNER JOIN',
-					['page.page_id = cl_from']
+					['page_id = cl_from']
 				]
 			]
 		);

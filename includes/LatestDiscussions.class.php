@@ -138,7 +138,11 @@ class LatestDiscussions {
 		return $html;
 	}
 
-	private function renderNoCommentsMessage( $message ) {
+	/**
+	 * Generate no comments message template
+	 * @return string
+	 */
+	private function renderNoCommentsMessage() {
 		$html = Html::openElement( 'p', [
 				'class' => 'csall-message'
 				] )
