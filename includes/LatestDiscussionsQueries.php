@@ -243,4 +243,45 @@ class LatestDiscussionsQueries
 
 		return $pages;
 	}
+
+	public static function getCommentPagesByUser(User $user, $limit, $offset){
+		$dbr = wfGetDB( DB_REPLICA );
+
+		$pages = $dbr->select(
+			[
+				'cs_comment_data',
+				'cs_watchlist',
+				'page',
+				'revision'
+			],
+			[
+				'cst_page_id AS page_id'
+			],
+			[
+				'cst_wl_user_id' => $user->getId(),
+			],
+			__METHOD__,
+			[
+				'ORDER BY' => 'rev_timestamp DESC' ,
+				'LIMIT' => $limit,
+				'OFFSET' => $offset
+			],
+			[
+				'page' => [
+					'INNER JOIN',
+					['cst_assoc_page_id = page_id']
+				],
+				'revision' => [
+					'INNER JOIN',
+					['page_latest = rev_id']
+				],
+				'cs_watchlist' => [
+					'INNER JOIN',
+					['cst_wl_page_id = cst_page_id']
+				]
+			]
+		);
+
+		return $pages;
+	}
 }

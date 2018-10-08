@@ -42,7 +42,7 @@ class LatestDiscussions {
 
 	/**
 	 * Render discussions
-	 * This function is called by the CommentStreams extension
+	 * This function is called by CommentStreams
 	 * @param Title $category
 	 * @param int $limit
 	 * @param int $offset
@@ -51,6 +51,22 @@ class LatestDiscussions {
 	public function renderDiscussionsFromCategory(Title $category, $limit = 10, $offset = 0){
 		# Fetch all comment pages
 		$pages = LatestDiscussionsQueries::getCommentPagesByCategory($category, $limit, $offset);
+
+		# Return comments
+		return $this->renderComments($pages);
+	}
+
+	/**
+	 * Render user's discussions
+	 * This function is called by SocialProfile
+	 * @param User $user
+	 * @param int $limit
+	 * @param int $offset
+	 * @return string
+	 */
+	public function renderDiscussionsFromUser(User $user, $limit = 10, $offset = 0){
+		#Fetch all comments posted by the specified user
+		$pages = LatestDiscussionsQueries::getCommentPagesByUser($user, $limit, $offset);
 
 		# Return comments
 		return $this->renderComments($pages);
