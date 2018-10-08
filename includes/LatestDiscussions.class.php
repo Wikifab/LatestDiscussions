@@ -34,7 +34,7 @@ class LatestDiscussions {
 	 */
    	public function renderAllDiscussions( $limit = 10, $offset = 0, $filter = 'default'){
 		# Fetch all comment pages
-		$pages = CommentStreamsAllDiscussions::getCommentPages( $limit + 1, $offset, $filter);
+		$pages = LatestDiscussionsQueries::getCommentPages( $limit + 1, $offset, $filter);
 
 		# Return comments
 		return $this->renderComments($pages);
@@ -50,7 +50,7 @@ class LatestDiscussions {
 	 */
 	public function renderDiscussionsFromCategory(Title $category, $limit = 10, $offset = 0){
 		# Fetch all comment pages
-		$pages = CommentStreamsAllDiscussions::getCommentPagesByCategory($category, $limit, $offset);
+		$pages = LatestDiscussionsQueries::getCommentPagesByCategory($category, $limit, $offset);
 
 		# Return comments
 		return $this->renderComments($pages);
