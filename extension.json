@@ -1,12 +1,13 @@
 {
 	"name": "Latest Discussions",
-	"author": "Julien",
+	"author": "Julien Leperlier",
 	"descriptionmsg": "latestdiscussions-desc",
 	"version": "1.0",
 	"license-name": "GPL-2.0+",
 	"type": "other",
 	"AutoloadClasses": {
-		"LatestDiscussions": "includes/LatestDiscussions.class.php"
+		"LatestDiscussions": "includes/LatestDiscussions.class.php",
+		"LatestDiscussionsQueries": "includes/LatestDiscussionsQueries.php"
 	},
 	"SpecialPages": {
 	},
