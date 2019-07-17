@@ -217,7 +217,7 @@ class LatestDiscussionsQueries
 				'cst_page_id AS page_id'
 			],
 			[
-				'cl_to' => $category->getText(),
+				'cl_to' => $category->getDBkey(),
 			],
 			__METHOD__,
 			[
