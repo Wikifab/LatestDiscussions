@@ -136,12 +136,10 @@ class LatestDiscussions {
 				$hasAnswerClass = $comment->isSolved() ? 'has-answer' : '';
 
 				$discussionCategoryTitle = $associatedpage->getTitle()->getPrefixedText();
-				$categoryTitle = explode(':', $discussionCategoryTitle);
-				$discussionCategory = $categoryTitle[0];
-				$categoryTitle = $categoryTitle[1];
+				$categoryTitle = explode(':', $discussionCategoryTitle)[1];
 				if(class_exists('CategoryManagerCore')){
 					$title = Title::makeTitleSafe(NS_CATEGORY, $categoryTitle);
-					$translatedCategoryTitle = $discussionCategory . ":" . CategoryManagerCore::getTranslatedCategoryTitle($title);
+					$translatedCategoryTitle = CategoryManagerCore::getTranslatedCategoryTitle($title);
 				} else {
 					$translatedCategoryTitle = $discussionCategoryTitle;
 				}
