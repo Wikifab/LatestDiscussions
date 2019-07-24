@@ -135,20 +135,17 @@ class LatestDiscussions {
 				$hasRepliesClass = $numReplies > 0 ? 'has-replies' : '';
 				$hasAnswerClass = $comment->isSolved() ? 'has-answer' : '';
 
-				$discussionCategoryTitle = $associatedpage->getTitle()->getPrefixedText();
-				$categoryTitle = explode(':', $discussionCategoryTitle)[1];
+				$categoryTitle = $associatedpage->getTitle()->getText();
 				if(class_exists('CategoryManagerCore')){
 					$title = Title::makeTitleSafe(NS_CATEGORY, $categoryTitle);
-					$translatedCategoryTitle = CategoryManagerCore::getTranslatedCategoryTitle($title);
-				} else {
-					$translatedCategoryTitle = $discussionCategoryTitle;
+					$categoryTitle = CategoryManagerCore::getTranslatedCategoryTitle($title);
 				}
-
+				
 				$html .= '<div class="row cs-disscussion cs-disscussion-transclude">';
 				$html .=     '<div class="col-sm-2 col-xs-3"><div class="cs-nb-replies ' . $hasRepliesClass . $hasAnswerClass . '"><span class="cs-nb-replies-nb">' . $numReplies . '</span> '.wfMessage('commentstreams-alldiscussions-replies').'</div></div>';
 				$html .=     '<div class="col-sm-7 col-xs-9">';
 				$html .=        '<div class="cs-comment-title"><a href="'.$associatedpage->getTitle()->getPrefixedText().'#cs-comment-'.$comment->getId().'">'.$comment->getCommentTitle().'</a></div>';
-				$html .=        '<div class="cs-associated-page-name">'.Linker::link(\Title::newFromText($associatedpage->getTitle()->getPrefixedText()), $translatedCategoryTitle).'</div>';
+				$html .=        '<div class="cs-associated-page-name">'.Linker::link(\Title::newFromText($associatedpage->getTitle()->getPrefixedText()), $categoryTitle).'</div>';
 				$html .=		'<div class="cs-comment-content">'.$comment->getWikitext().'</div>';
 				$html .=     '</div>';
 				$html .=     '<div class="col-sm-3 col-xs-12">';
