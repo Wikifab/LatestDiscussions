@@ -142,6 +142,7 @@ class LatestDiscussions {
 				}
 
 				$commentUrl = $associatedpage->getTitle()->getFullURL() . '#cs-comment-'.$comment->getId();
+				$authorPageUrl = $comment->getUser()->getUserPage()->getFullURL();
 
 				$html .= '<div class="row cs-disscussion cs-disscussion-transclude">';
 				$html .=     '<div class="col-sm-2 col-xs-3"><div class="cs-nb-replies ' . $hasRepliesClass . $hasAnswerClass . '"><span class="cs-nb-replies-nb">' . $numReplies . '</span> '.wfMessage('commentstreams-alldiscussions-replies').'</div></div>';
@@ -151,11 +152,13 @@ class LatestDiscussions {
 				$html .=		'<div class="cs-comment-content">'.$comment->getWikitext().'</div>';
 				$html .=     '</div>';
 				$html .=     '<div class="col-sm-3 col-xs-12">';
+				$html .=     '	<a href="' . $authorPageUrl . '">';
 				$html .=         '<div class="cs-comment-author-avatar"><img src="'.$comment->getAvatar().'" alt="" border="0" /></div>';
 				$html .=         '<div class="cs-comment-author-creationdate-parent-div"><div class="cs-comment-author">'.$author.'</div>';
+				$html .=     '	</a>';
 				$html .=         '<div class="cs-comment-creation-date">'.$comment->getCreationDate().'</div></div>';
 				$html .=     '</div>';
-				$html .= '</div><hr>';
+				$html .= "</div><hr>\n";
 			}
 		}
 
