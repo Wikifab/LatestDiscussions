@@ -115,7 +115,11 @@ class LatestDiscussions {
 					$author = '<i>' . wfMessage( 'commentstreams-author-anonymous' )
 						. '</i>';
 				} else {
-					$author = $author->getName();
+					if ($author->getRealName() ) {
+						$author = $author->getRealName();
+					} else {
+						$author = $author->getName();
+					}
 				}
 				$modificationdate = $comment->getModificationDate();
 				if ( is_null( $modificationdate ) ) {
