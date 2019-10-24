@@ -2,13 +2,11 @@
 
 class LatestDiscussions {
 
-	private static $parser;
 	/**
 	 * On parser setup
 	 * @param $parser
 	 */
 	public static function onParserSetup( &$parser ) {
-		self::$parser = $parser;
 		$parser->setFunctionHook( 'displayalldiscussions', 'LatestDiscussions::displayAllDiscussions' );
 	}
 
@@ -80,7 +78,7 @@ class LatestDiscussions {
 	 * @return string
 	 */
 	public function renderComments($pages){
-		global $wgOut;
+		global $wgOut, $wgUser;
 
 		# Add CommentStreams style
 		$wgOut->addModuleStyles( 'ext.CommentStreamsAllComments' );
@@ -96,6 +94,16 @@ class LatestDiscussions {
 			# Create Comment instance
 			$wikipage = WikiPage::newFromId( $page->page_id );
 			$comment = Comment::newFromWikiPage( $wikipage );
+
+			$lockdownEnabled = ExtensionRegistry::getInstance()->isLoaded('Lockdown');
+
+			if ($lockdownEnabled) {
+				$ns = $wikipage->getTitle()->getNamespace();
+				if ( ! LatestDiscussions\LockDownInterface::userCanSeeNamespace($wgUser, $ns) ) {
+					// user is not allowed to see this page comments
+					continue;
+				}
+			}
 
 			# If no Comment instance, go to the next comment
 			if(is_null($comment)) continue;
@@ -166,8 +174,12 @@ class LatestDiscussions {
 					}
 					$commentFormatedDate = $commentTime->getRelativeTimestamp ( null, null, null, $chosenIntervals );
 				} else {
-					$lang = self::$parser->getFunctionLang ();
-					$commentFormatedDate = $lang->userTimeAndDate ( $commentTime, self::$parser->getUser () );
+					// parser may not be started yet, so this doens't works :
+					// $lang = self::$parser->getFunctionLang ();
+					// self::$parser->getUser ()
+					$lang = RequestContext::getMain()->getLanguage();
+					$user = RequestContext::getMain()->getUser();
+					$commentFormatedDate = $lang->userTimeAndDate ( $commentTime, $user );
 
 					if ( $commentDateDiff->y == 0 && $commentDateDiff->m < 10 ) {
 						// we remove the year

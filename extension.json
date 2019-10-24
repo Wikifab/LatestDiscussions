@@ -7,7 +7,8 @@
 	"type": "other",
 	"AutoloadClasses": {
 		"LatestDiscussions": "includes/LatestDiscussions.class.php",
-		"LatestDiscussionsQueries": "includes/LatestDiscussionsQueries.php"
+		"LatestDiscussionsQueries": "includes/LatestDiscussionsQueries.php",
+		"LatestDiscussions\\LockDownInterface": "includes/LockDownInterface.php"
 	},
 	"SpecialPages": {
 	},
