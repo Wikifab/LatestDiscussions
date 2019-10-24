@@ -2,11 +2,13 @@
 
 class LatestDiscussions {
 
+	private static $parser;
 	/**
 	 * On parser setup
 	 * @param $parser
 	 */
 	public static function onParserSetup( &$parser ) {
+		self::$parser = $parser;
 		$parser->setFunctionHook( 'displayalldiscussions', 'LatestDiscussions::displayAllDiscussions' );
 	}
 
@@ -147,6 +149,31 @@ class LatestDiscussions {
 
 				$commentUrl = $associatedpage->getTitle()->getFullURL() . '#cs-comment-'.$comment->getId();
 				$authorPageUrl = $comment->getUser()->getUserPage()->getFullURL();
+				$commentTime = $comment->getCreationTimestamp ();
+				$commentDateDiff = $commentTime->diff ( new MWTimestamp () );
+				if ( $commentDateDiff->y == 0 && $commentDateDiff->m == 0 && $commentDateDiff->d < 3 ) {
+					// less than a day ago : display date diff
+					if ( $commentDateDiff->d >= 1 ) {
+						$chosenIntervals = [
+								'days',
+								'hours'
+						];
+					} else {
+						$chosenIntervals = [
+								'hours',
+								'minutes'
+						];
+					}
+					$commentFormatedDate = $commentTime->getRelativeTimestamp ( null, null, null, $chosenIntervals );
+				} else {
+					$lang = self::$parser->getFunctionLang ();
+					$commentFormatedDate = $lang->userTimeAndDate ( $commentTime, self::$parser->getUser () );
+
+					if ( $commentDateDiff->y == 0 && $commentDateDiff->m < 10 ) {
+						// we remove the year
+						$commentFormatedDate = str_replace ( date ( 'Y' ), '', $commentFormatedDate );
+					}
+				}
 
 				$html .= '<div class="row cs-disscussion cs-disscussion-transclude">';
 				$html .=     '<div class="col-sm-2 col-xs-3"><div class="cs-nb-replies ' . $hasRepliesClass . $hasAnswerClass . '"><span class="cs-nb-replies-nb">' . $numReplies . '</span> '.wfMessage('commentstreams-alldiscussions-replies').'</div></div>';
@@ -160,7 +187,7 @@ class LatestDiscussions {
 				$html .=         '<div class="cs-comment-author-avatar"><img src="'.$comment->getAvatar().'" alt="" border="0" /></div>';
 				$html .=         '<div class="cs-comment-author-creationdate-parent-div"><div class="cs-comment-author">'.$author.'</div>';
 				$html .=     '	</a>';
-				$html .=         '<div class="cs-comment-creation-date">'.$comment->getCreationDate().'</div></div>';
+				$html .=         '<div class="cs-comment-creation-date">' . $commentFormatedDate . '</div></div>';
 				$html .=     '</div>';
 				$html .= "</div><hr>\n";
 			}
