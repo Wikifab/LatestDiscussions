@@ -140,11 +140,13 @@ class LatestDiscussions {
 					$title = Title::makeTitleSafe(NS_CATEGORY, $categoryTitle);
 					$categoryTitle = CategoryManagerCore::getTranslatedCategoryTitle($title);
 				}
-				
+
+				$commentUrl = $associatedpage->getTitle()->getFullURL() . '#cs-comment-'.$comment->getId();
+
 				$html .= '<div class="row cs-disscussion cs-disscussion-transclude">';
 				$html .=     '<div class="col-sm-2 col-xs-3"><div class="cs-nb-replies ' . $hasRepliesClass . $hasAnswerClass . '"><span class="cs-nb-replies-nb">' . $numReplies . '</span> '.wfMessage('commentstreams-alldiscussions-replies').'</div></div>';
 				$html .=     '<div class="col-sm-7 col-xs-9">';
-				$html .=        '<div class="cs-comment-title"><a href="'.$associatedpage->getTitle()->getPrefixedText().'#cs-comment-'.$comment->getId().'">'.$comment->getCommentTitle().'</a></div>';
+				$html .=        '<div class="cs-comment-title"><a href="'.$commentUrl.'">'.$comment->getCommentTitle().'</a></div>';
 				$html .=        '<div class="cs-associated-page-name">'.Linker::link(\Title::newFromText($associatedpage->getTitle()->getPrefixedText()), $categoryTitle).'</div>';
 				$html .=		'<div class="cs-comment-content">'.$comment->getWikitext().'</div>';
 				$html .=     '</div>';
