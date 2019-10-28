@@ -95,15 +95,6 @@ class LatestDiscussions {
 			$wikipage = WikiPage::newFromId( $page->page_id );
 			$comment = Comment::newFromWikiPage( $wikipage );
 
-			$lockdownEnabled = ExtensionRegistry::getInstance()->isLoaded('Lockdown');
-
-			if ($lockdownEnabled) {
-				$ns = $wikipage->getTitle()->getNamespace();
-				if ( ! LatestDiscussions\LockDownInterface::userCanSeeNamespace($wgUser, $ns) ) {
-					// user is not allowed to see this page comments
-					continue;
-				}
-			}
 
 			# If no Comment instance, go to the next comment
 			if(is_null($comment)) continue;
@@ -116,6 +107,16 @@ class LatestDiscussions {
 			$pagename = $comment->getWikiPage()->getTitle()->getPrefixedText();
 			$associatedpageid = $comment->getAssociatedId();
 			$associatedpage = WikiPage::newFromId( $associatedpageid );
+
+			$lockdownEnabled = ExtensionRegistry::getInstance()->isLoaded('Lockdown');
+
+			if ($associatedpage && $lockdownEnabled) {
+				$ns = $associatedpage->getTitle()->getNamespace();
+				if ( ! LatestDiscussions\LockDownInterface::userCanSeeNamespace($wgUser, $ns) ) {
+					// user is not allowed to see this page comments
+					continue;
+				}
+			}
 
 			if ( !is_null( $associatedpage ) ) {
 				$associatedpagename =
