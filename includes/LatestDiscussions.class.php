@@ -176,7 +176,7 @@ class LatestDiscussions {
 					$commentFormatedDate = $commentTime->getRelativeTimestamp ( null, null, null, $chosenIntervals );
 				} else {
 					// parser may not be started yet, so this doens't works :
-					// $lang = self::$parser->getFunctionLang ();
+					// $lang = self::$parser->getTargetLanguage ();
 					// self::$parser->getUser ()
 					$lang = RequestContext::getMain()->getLanguage();
 					$user = RequestContext::getMain()->getUser();
